@@ -21,7 +21,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
     currentReview?.status || 'Accepted'
   );
   const [notes, setNotes] = useState(
-    currentReview?.reviewer_notes || 'Approved AI diagnosis and fix steps after CLI output verification.'
+    currentReview?.reviewer_notes || ''
   );
   const [correctedFix, setCorrectedFix] = useState(
     currentReview?.corrected_fix || diagnosis.fix_steps.join('\n')
@@ -31,7 +31,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
   const handleSave = () => {
     onSaveReview({
       status,
-      reviewer_notes: notes,
+      reviewer_notes: notes.trim() || 'Accepted without additional notes.',
       corrected_fix: status === 'Edited' ? correctedFix : undefined,
     });
     setSavedSuccess(true);
@@ -181,7 +181,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
             </div>
           )}
 
-          {/* Engineer Audit Notes Input & Action Button */}
+          {/* Engineer Audit Notes Input with Placeholder */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             <input
               type="text"
@@ -194,7 +194,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
                 fontSize: '0.775rem',
                 outline: 'none'
               }}
-              placeholder="Reviewer audit notes & justification..."
+              placeholder="Write your review comment here..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
