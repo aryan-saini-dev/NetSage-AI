@@ -1,50 +1,96 @@
 import React from 'react';
-import { Cpu, ShieldCheck, Activity, Radio } from 'lucide-react';
+import { ViewMode, Case } from '../types';
+import { Terminal, ChevronRight, Play } from 'lucide-react';
 
 interface HeaderProps {
-  activeTab: 'workspace' | 'dashboard' | 'responsible_ai';
-  setActiveTab: (tab: 'workspace' | 'dashboard' | 'responsible_ai') => void;
+  activeView: ViewMode;
+  setActiveView: (view: ViewMode) => void;
+  selectedCase: Case;
+  cases: Case[];
+  onSelectCase: (c: Case) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
+export const Header: React.FC<HeaderProps> = ({
+  activeView,
+  setActiveView,
+  selectedCase,
+  cases,
+  onSelectCase,
+}) => {
   return (
-    <header className="flat-header">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div className="flat-logo-badge">NetSage AI</div>
-        <div>
-          <div className="flat-nav-title">Cisco Network Diagnostic Assistant</div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--color-fg-muted)', fontWeight: 500 }}>
-            Packet Tracer Troubleshooting & Human Verification Workbench
-          </div>
+    <header className="lc-header">
+      <div className="lc-brand">
+        <div className="lc-logo" onClick={() => setActiveView('catalog')} style={{ cursor: 'pointer' }}>
+          NETSAGE<span>.AI</span>
         </div>
+        <span style={{ color: 'var(--border)', fontSize: '1.25rem' }}>/</span>
+        
+        {/* LeetCode Problem Selector / Breadcrumb */}
+        {activeView === 'workspace' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <select
+              style={{
+                backgroundColor: 'var(--card)',
+                color: 'var(--fg)',
+                border: '1px solid var(--border)',
+                padding: '0.35rem 0.65rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+              value={selectedCase.case_id}
+              onChange={(e) => {
+                const found = cases.find(c => c.case_id === e.target.value);
+                if (found) onSelectCase(found);
+              }}
+            >
+              {cases.map(c => (
+                <option key={c.case_id} value={c.case_id}>
+                  {c.case_id} - {c.title.substring(0, 40)}...
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-        <div className="flat-status-pill">
-          <Radio size={14} color="#10b981" />
-          <span>Gemini 2.5 Flash</span>
-        </div>
+      <nav className="lc-nav-links">
+        <button
+          className={`lc-nav-item ${activeView === 'catalog' ? 'active' : ''}`}
+          onClick={() => setActiveView('catalog')}
+        >
+          Lab Catalog
+        </button>
+        <button
+          className={`lc-nav-item ${activeView === 'workspace' ? 'active' : ''}`}
+          onClick={() => setActiveView('workspace')}
+        >
+          Simulator
+        </button>
+        <button
+          className={`lc-nav-item ${activeView === 'metrics' ? 'active' : ''}`}
+          onClick={() => setActiveView('metrics')}
+        >
+          Metrics
+        </button>
+        <button
+          className={`lc-nav-item ${activeView === 'audit' ? 'active' : ''}`}
+          onClick={() => setActiveView('audit')}
+        >
+          Audit Log
+        </button>
+      </nav>
 
-        <nav className="flat-tab-group">
-          <button
-            className={`flat-tab-btn ${activeTab === 'workspace' ? 'active' : ''}`}
-            onClick={() => setActiveTab('workspace')}
-          >
-            <Cpu size={16} /> Workbench
-          </button>
-          <button
-            className={`flat-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveTab('dashboard')}
-          >
-            <Activity size={16} /> Metrics
-          </button>
-          <button
-            className={`flat-tab-btn ${activeTab === 'responsible_ai' ? 'active' : ''}`}
-            onClick={() => setActiveTab('responsible_ai')}
-          >
-            <ShieldCheck size={16} /> Audit Log
-          </button>
-        </nav>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <button
+          className="bold-btn-solid"
+          style={{ padding: '0.4rem 1rem', fontSize: '0.75rem' }}
+          onClick={() => setActiveView('workspace')}
+        >
+          <Play size={12} style={{ fill: 'currentColor' }} /> Run Lab
+        </button>
       </div>
     </header>
   );

@@ -10,6 +10,7 @@ export interface Case {
   expected_fault: string;
   expected_fix: string;
   rule_trigger: string;
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
 }
 
 export interface RuleFinding {
@@ -36,3 +37,5 @@ export interface HumanReview {
   corrected_fault?: string;
   corrected_fix?: string;
 }
+
+export type ViewMode = 'catalog' | 'workspace' | 'metrics' | 'audit';

@@ -41,51 +41,47 @@ export const ResponsibleAILogViewer: React.FC = () => {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <div className="flat-card flat-card-primary" style={{ padding: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem' }}>
-          <ShieldCheck size={26} color="#1d4ed8" />
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#1e3a8a', letterSpacing: '-0.02em' }}>
-            Responsible AI Audit & Human Correction Log
-          </h2>
-        </div>
-        <p style={{ fontSize: '0.925rem', color: '#1e40af', fontWeight: 600, lineHeight: 1.5 }}>
-          In compliance with Cisco AICTE guidelines, at least 5 complex network troubleshooting cases where the automated AI model initially produced imperfect or unsafe recommendations were audited and corrected by human network engineers.
-        </p>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 2rem' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 700, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.75rem' }}>
+        // AUDIT & RESPONSIBLE AI AUDIT LOG
       </div>
+      <h1 className="lc-hero-heading" style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>
+        HUMAN CORRECTIONS & AI FAILURE TAXONOMY
+      </h1>
+      <p style={{ fontSize: '1.1rem', color: 'var(--muted-fg)', marginBottom: '3rem', maxWidth: '800px' }}>
+        In compliance with Cisco AICTE guidelines, at least 5 complex network troubleshooting cases where the automated AI model initially produced imperfect or unsafe recommendations were audited and corrected by human network engineers.
+      </p>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {correctedCases.map((c) => (
-          <div key={c.id} className="flat-card flat-card-interactive" style={{ padding: '1.35rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '0.95rem', color: 'var(--color-primary)' }}>
+          <div key={c.id} className="bold-card">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '1rem', color: 'var(--accent)' }}>
                 {c.id} - {c.title}
               </span>
-              <span className="flat-badge" style={{ backgroundColor: '#fef3c7', color: '#92400e', border: '1.5px solid #f59e0b' }}>
-                Human Corrected
-              </span>
+              <span className="lc-diff diff-medium">Human Corrected</span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-              <div className="flat-card" style={{ backgroundColor: '#fef2f2', borderColor: '#ef4444', padding: '0.85rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#991b1b', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
-                  <AlertTriangle size={14} /> AI FAILURE MODE
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+              <div className="bold-card" style={{ borderColor: '#ef4444' }}>
+                <div style={{ fontSize: '0.75rem', color: '#ef4444', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.35rem', textTransform: 'uppercase' }}>
+                  <AlertTriangle size={15} /> AI Failure Mode
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#7f1d1d', fontWeight: 600 }}>{c.failureMode}</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--fg)', lineHeight: 1.5 }}>{c.failureMode}</div>
               </div>
 
-              <div className="flat-card" style={{ backgroundColor: '#ecfdf5', borderColor: '#10b981', padding: '0.85rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#065f46', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
-                  <CheckCircle2 size={14} /> HUMAN CORRECTION
+              <div className="bold-card" style={{ borderColor: '#10b981' }}>
+                <div style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.35rem', textTransform: 'uppercase' }}>
+                  <CheckCircle2 size={15} /> Human Correction
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#064e3b', fontWeight: 600 }}>{c.humanCorrection}</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--fg)', lineHeight: 1.5 }}>{c.humanCorrection}</div>
               </div>
 
-              <div className="flat-card" style={{ backgroundColor: '#f5f3ff', borderColor: '#8b5cf6', padding: '0.85rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#5b21b6', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
-                  <Bookmark size={14} /> GUARDRAIL ADDED
+              <div className="bold-card" style={{ borderColor: '#8b5cf6' }}>
+                <div style={{ fontSize: '0.75rem', color: '#8b5cf6', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.35rem', textTransform: 'uppercase' }}>
+                  <Bookmark size={15} /> Systemic Guardrail Added
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#4c1d95', fontWeight: 600 }}>{c.guardrailAdded}</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--fg)', lineHeight: 1.5 }}>{c.guardrailAdded}</div>
               </div>
             </div>
           </div>

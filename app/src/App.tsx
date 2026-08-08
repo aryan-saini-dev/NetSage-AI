@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { CaseSelector } from './components/CaseSelector';
-import { CLIViewer } from './components/CLIViewer';
-import { AIDiagnosisPanel } from './components/AIDiagnosisPanel';
-import { HumanReviewPanel } from './components/HumanReviewPanel';
+import { LabCatalog } from './components/LabCatalog';
+import { LabWorkspace } from './components/LabWorkspace';
 import { MetricsDashboard } from './components/MetricsDashboard';
 import { ResponsibleAILogViewer } from './components/ResponsibleAILogViewer';
 import { casesData } from './data/casesData';
-import { Case, AIDiagnosis, HumanReview, RuleFinding } from './types';
+import { Case, AIDiagnosis, HumanReview, RuleFinding, ViewMode } from './types';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'workspace' | 'dashboard' | 'responsible_ai'>('workspace');
+  const [activeView, setActiveView] = useState<ViewMode>('catalog');
   const [selectedCase, setSelectedCase] = useState<Case>(casesData[0]);
   const [reviews, setReviews] = useState<Record<string, HumanReview>>({});
 
@@ -37,6 +35,11 @@ export const App: React.FC = () => {
     }
   ] : [];
 
+  const handleSelectAndLaunch = (c: Case) => {
+    setSelectedCase(c);
+    setActiveView('workspace');
+  };
+
   const handleSaveReview = (review: HumanReview) => {
     setReviews(prev => ({
       ...prev,
@@ -46,46 +49,36 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg)', color: 'var(--fg)' }}>
+      <Header
+        activeView={activeView}
+        setActiveView={setActiveView}
+        selectedCase={selectedCase}
+        cases={casesData}
+        onSelectCase={setSelectedCase}
+      />
 
-      <main className="flat-container">
-        {activeTab === 'workspace' && (
-          <div className="flat-workspace-grid">
-            <CaseSelector
-              cases={casesData}
-              selectedCase={selectedCase}
-              onSelectCase={setSelectedCase}
-            />
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <CLIViewer
-                caseId={selectedCase.case_id}
-                title={selectedCase.title}
-                symptom={selectedCase.symptom}
-                topology={selectedCase.topology_summary}
-                showOutputs={selectedCase.show_outputs}
-                domain={selectedCase.domain}
-                osiLayer={selectedCase.osi_layer}
-              />
-
-              <AIDiagnosisPanel
-                diagnosis={currentDiagnosis}
-                ruleFindings={currentRuleFindings}
-              />
-
-              <HumanReviewPanel
-                diagnosis={currentDiagnosis}
-                currentReview={reviews[selectedCase.case_id]}
-                onSaveReview={handleSaveReview}
-              />
-            </div>
-          </div>
+      <main>
+        {activeView === 'catalog' && (
+          <LabCatalog
+            cases={casesData}
+            onSelectAndLaunch={handleSelectAndLaunch}
+          />
         )}
 
-        {activeTab === 'dashboard' && <MetricsDashboard />}
+        {activeView === 'workspace' && (
+          <LabWorkspace
+            selectedCase={selectedCase}
+            diagnosis={currentDiagnosis}
+            ruleFindings={currentRuleFindings}
+            currentReview={reviews[selectedCase.case_id]}
+            onSaveReview={handleSaveReview}
+          />
+        )}
 
-        {activeTab === 'responsible_ai' && <ResponsibleAILogViewer />}
+        {activeView === 'metrics' && <MetricsDashboard />}
+
+        {activeView === 'audit' && <ResponsibleAILogViewer />}
       </main>
     </div>
   );
