@@ -27,6 +27,7 @@ export const LabWorkspace: React.FC<LabWorkspaceProps> = ({
       <TerminalPane
         showOutputs={selectedCase.show_outputs}
         diagnosis={diagnosis}
+        ruleFindings={ruleFindings}
         currentReview={currentReview}
         onSaveReview={onSaveReview}
       />

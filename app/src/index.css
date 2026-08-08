@@ -59,10 +59,26 @@ body::before {
   z-index: 9999;
 }
 
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseDot {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
@@ -78,8 +94,8 @@ body::before {
 .lc-header {
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  height: 56px;
-  padding: 0 1.5rem;
+  height: 48px;
+  padding: 0 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,18 +107,23 @@ body::before {
 .lc-brand {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .lc-logo {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: var(--fg);
   letter-spacing: -0.04em;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
+  transition: transform 0.15s ease;
+}
+
+.lc-logo:hover {
+  transform: scale(1.03);
 }
 
 .lc-logo span {
@@ -111,7 +132,7 @@ body::before {
 
 .lc-nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .lc-nav-item {
@@ -119,12 +140,12 @@ body::before {
   border: none;
   color: var(--muted-fg);
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.775rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   position: relative;
   transition: color 0.15s ease;
 }
@@ -137,7 +158,7 @@ body::before {
   color: var(--accent);
 }
 
-.lc-nav-item.active::after {
+.lc-nav-item::after {
   content: "";
   position: absolute;
   bottom: -1px;
@@ -145,14 +166,21 @@ body::before {
   width: 100%;
   height: 2px;
   background-color: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.15s ease;
+}
+
+.lc-nav-item:hover::after, .lc-nav-item.active::after {
+  transform: scaleX(1);
 }
 
 /* LeetCode Lab Simulator Split-Pane Workspace */
 .lc-workspace-layout {
   display: grid;
-  grid-template-columns: 460px 1fr;
-  height: calc(100vh - 56px);
+  grid-template-columns: 440px 1fr;
+  height: calc(100vh - 48px);
   overflow: hidden;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (max-width: 1024px) {
@@ -175,53 +203,16 @@ body::before {
 .lc-pane-header {
   background-color: var(--card);
   border-bottom: 1px solid var(--border);
-  height: 44px;
-  padding: 0 1rem;
+  height: 36px;
+  padding: 0 0.85rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.lc-tab-group {
-  display: flex;
-  gap: 1rem;
-}
-
-.lc-tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--muted-fg);
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.75rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  position: relative;
-}
-
-.lc-tab-btn:hover {
-  color: var(--fg);
-}
-
-.lc-tab-btn.active {
-  color: var(--fg);
-}
-
-.lc-tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--accent);
-}
-
 .lc-pane-content {
   flex: 1;
-  padding: 1.5rem;
+  padding: 0.85rem 1rem;
   overflow-y: auto;
 }
 
@@ -229,23 +220,24 @@ body::before {
 .lc-catalog-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 2.5rem 1.5rem;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .lc-hero-heading {
   font-family: var(--font-heading);
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 900;
   letter-spacing: -0.05em;
   line-height: 1;
   color: var(--fg);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .lc-hero-sub {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: var(--muted-fg);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   max-width: 680px;
 }
 
@@ -261,9 +253,9 @@ body::before {
 }
 
 .lc-table th {
-  padding: 0.85rem 1.25rem;
+  padding: 0.75rem 1rem;
   font-family: var(--font-heading);
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -273,10 +265,10 @@ body::before {
 }
 
 .lc-table td {
-  padding: 1rem 1.25rem;
-  font-size: 0.875rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.825rem;
   border-bottom: 1px solid var(--border);
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .lc-table tr:hover td {
@@ -287,34 +279,40 @@ body::before {
 /* Difficulty Badges */
 .lc-diff {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: transform 0.15s ease;
 }
 
 .diff-easy { color: #10b981; border: 1px solid #10b981; }
 .diff-medium { color: #f59e0b; border: 1px solid #f59e0b; }
 .diff-hard { color: #ef4444; border: 1px solid #ef4444; }
 
-/* Bold Typography Buttons */
+/* Bold Typography Buttons with Click & Hover Animations */
 .bold-btn-primary {
   background-color: transparent;
   color: var(--accent);
   border: none;
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   position: relative;
-  padding: 0.5rem 0;
+  padding: 0.35rem 0;
+  transition: transform 0.1s ease, color 0.15s ease;
+}
+
+.bold-btn-primary:active {
+  transform: translateY(1px) scale(0.97);
 }
 
 .bold-btn-primary::after {
@@ -325,6 +323,7 @@ body::before {
   width: 100%;
   height: 2px;
   background-color: var(--accent);
+  transform: scaleX(1);
   transition: transform 0.15s ease;
 }
 
@@ -337,37 +336,51 @@ body::before {
   color: var(--accent-fg);
   border: none;
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  padding: 0.75rem 1.5rem;
+  padding: 0.45rem 1rem;
   cursor: pointer;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .bold-btn-solid:hover {
   background-color: #ff5722;
-  transform: scale(1.04);
+  transform: translateY(-1px);
+}
+
+.bold-btn-solid:active {
+  transform: translateY(1px) scale(0.97);
 }
 
 .bold-btn-outline {
   background-color: transparent;
-  border: 1px solid var(--fg);
+  border: 1px solid var(--border);
   color: var(--fg);
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  padding: 0.75rem 1.5rem;
+  padding: 0.45rem 1rem;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .bold-btn-outline:hover {
-  background-color: var(--fg);
-  color: var(--bg);
+  border-color: var(--fg);
+  transform: translateY(-1px);
+}
+
+.bold-btn-outline:active {
+  transform: translateY(1px) scale(0.97);
 }
 
 /* Terminal & Evidence Boxes */
@@ -375,22 +388,26 @@ body::before {
   background-color: #050505;
   border: 1px solid var(--border);
   font-family: var(--font-mono);
-  font-size: 0.825rem;
+  font-size: 0.775rem;
   color: #38bdf8;
-  padding: 1rem;
-  line-height: 1.6;
+  padding: 0.65rem;
+  line-height: 1.5;
   white-space: pre-wrap;
-  max-height: 300px;
   overflow-y: auto;
+  transition: border-color 0.15s ease;
+}
+
+.lc-terminal-box:hover {
+  border-color: #3b82f6;
 }
 
 /* Card Block */
 .bold-card {
   background-color: var(--card);
   border: 1px solid var(--border);
-  padding: 1.5rem;
+  padding: 0.85rem;
   position: relative;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
 .bold-card:hover {
@@ -398,5 +415,5 @@ body::before {
 }
 
 .bold-card-accent {
-  border: 2px solid var(--accent);
+  border: 1.5px solid var(--accent);
 }
