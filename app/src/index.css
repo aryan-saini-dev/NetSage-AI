@@ -45,6 +45,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Responsive visibility helpers */
+.show-mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  .show-mobile-only {
+    display: block !important;
+  }
+}
+
 /* Subtle background noise texture effect */
 body::before {
   content: "";
@@ -63,12 +77,6 @@ body::before {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(3px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulseDot {
-  0% { opacity: 0.6; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 0.6; transform: scale(0.95); }
 }
 
 .animate-fade-in {
@@ -94,7 +102,7 @@ body::before {
 .lc-header {
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  height: 48px;
+  height: 50px;
   padding: 0 1.25rem;
   display: flex;
   justify-content: space-between;
@@ -178,12 +186,12 @@ body::before {
 .lc-workspace-layout {
   display: grid;
   grid-template-columns: 440px 1fr;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 50px);
   overflow: hidden;
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .lc-workspace-layout {
     grid-template-columns: 1fr;
     height: auto;
@@ -234,6 +242,15 @@ body::before {
   margin-bottom: 0.85rem;
 }
 
+@media (max-width: 640px) {
+  .lc-hero-heading {
+    font-size: 2.25rem;
+  }
+  .lc-catalog-container {
+    padding: 1.5rem 1rem;
+  }
+}
+
 .lc-hero-sub {
   font-size: 1rem;
   color: var(--muted-fg);
@@ -244,12 +261,14 @@ body::before {
 .lc-table-card {
   background-color: var(--card);
   border: 1px solid var(--border);
+  overflow-x: auto;
 }
 
 .lc-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  min-width: 600px;
 }
 
 .lc-table th {
@@ -341,6 +360,7 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0.45rem 1rem;
+  min-height: 38px;
   cursor: pointer;
   transition: transform 0.12s ease, background-color 0.15s ease;
   display: inline-flex;
@@ -367,6 +387,7 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0.45rem 1rem;
+  min-height: 38px;
   cursor: pointer;
   transition: all 0.12s ease;
   display: inline-flex;
