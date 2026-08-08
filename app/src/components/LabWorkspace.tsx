@@ -22,7 +22,6 @@ export const LabWorkspace: React.FC<LabWorkspaceProps> = ({
     <div className="lc-workspace-layout">
       <ProblemPane
         selectedCase={selectedCase}
-        ruleFindings={ruleFindings}
       />
       <TerminalPane
         showOutputs={selectedCase.show_outputs}
