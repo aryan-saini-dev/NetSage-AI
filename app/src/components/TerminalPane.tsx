@@ -71,10 +71,10 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
             </span>
           </div>
 
-          {/* Static Rule Finding pill if triggered */}
+          {/* Static Rule Finding pill if triggered - Styled with dark theme amber accent */}
           {ruleFindings.length > 0 && (
-            <div style={{ backgroundColor: '#fffbeb', border: '1px solid #f59e0b', padding: '0.35rem 0.5rem', borderRadius: '0px', marginBottom: '0.35rem', fontSize: '0.725rem', color: '#78350f', fontWeight: 600 }}>
-              <strong>[{ruleFindings[0].rule_id}]</strong> Static Check: {ruleFindings[0].evidence}
+            <div style={{ backgroundColor: '#1c1303', border: '1px solid #d97706', padding: '0.35rem 0.6rem', borderRadius: '0px', marginBottom: '0.4rem', fontSize: '0.725rem', color: '#fbbf24', fontWeight: 600 }}>
+              <strong style={{ color: '#f59e0b', fontFamily: 'var(--font-mono)' }}>[{ruleFindings[0].rule_id}]</strong> Static Check: {ruleFindings[0].evidence}
             </div>
           )}
 
