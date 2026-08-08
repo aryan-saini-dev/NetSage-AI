@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HumanReview, AIDiagnosis } from '../types';
-import { UserCheck, Check, Edit2, XCircle } from 'lucide-react';
+import { UserCheck, Check, Edit2, X } from 'lucide-react';
 
 interface HumanReviewPanelProps {
   diagnosis: AIDiagnosis;
@@ -32,117 +32,87 @@ export const HumanReviewPanel: React.FC<HumanReviewPanelProps> = ({
   };
 
   return (
-    <div className="glass-card" style={{ padding: '1.25rem', borderTop: '4px solid #10b981' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-        <UserCheck size={20} color="#10b981" />
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Human-in-the-Loop Verification Workbench</h3>
+    <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', borderTop: '3px solid #10b981' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <UserCheck size={18} color="#10b981" />
+        <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f9fafb' }}>Human-in-the-Loop Review Workbench</h3>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
-          <label style={{ fontSize: '0.8rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>
-            HUMAN REVIEW DECISION
-          </label>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button
-              className={`btn-accept ${status === 'Accepted' ? 'active' : ''}`}
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                boxShadow: status === 'Accepted' ? '0 0 10px rgba(16,185,129,0.4)' : 'none',
-              }}
-              onClick={() => setStatus('Accepted')}
-            >
-              <Check size={16} /> Approve & Accept
-            </button>
-            <button
-              className={`btn-edit ${status === 'Edited' ? 'active' : ''}`}
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                boxShadow: status === 'Edited' ? '0 0 10px rgba(245,158,11,0.4)' : 'none',
-              }}
-              onClick={() => setStatus('Edited')}
-            >
-              <Edit2 size={16} /> Edit Fix Commands
-            </button>
-            <button
-              className={`btn-reject ${status === 'Rejected' ? 'active' : ''}`}
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                boxShadow: status === 'Rejected' ? '0 0 10px rgba(244,63,94,0.4)' : 'none',
-              }}
-              onClick={() => setStatus('Rejected')}
-            >
-              <XCircle size={16} /> Reject Diagnosis
-            </button>
-          </div>
-        </div>
-
-        {status === 'Edited' && (
-          <div>
-            <label style={{ fontSize: '0.8rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>
-              HUMAN CORRECTED CISCO IOS FIX COMMANDS
-            </label>
-            <textarea
-              style={{
-                width: '100%',
-                height: '80px',
-                background: 'var(--cli-bg)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-                color: '#38bdf8',
-                fontFamily: 'var(--font-mono)',
-                padding: '0.75rem',
-                fontSize: '0.825rem',
-              }}
-              value={correctedFix}
-              onChange={(e) => setCorrectedFix(e.target.value)}
-            />
-          </div>
-        )}
-
-        <div>
-          <label style={{ fontSize: '0.8rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>
-            REVIEWER AUDIT NOTES & JUSTIFICATION
-          </label>
-          <input
-            type="text"
-            style={{
-              width: '100%',
-              background: 'rgba(15,23,42,0.8)',
-              border: '1px solid var(--border-color)',
-              borderRadius: '8px',
-              color: '#f3f4f6',
-              padding: '0.65rem 0.85rem',
-              fontSize: '0.875rem',
-            }}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button className="btn-primary" onClick={handleSave}>
-            Save Review Log Entry
+      <div>
+        <label style={{ fontSize: '0.725rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.35rem', textTransform: 'uppercase' }}>
+          REVIEW ACTION DECISION
+        </label>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button
+            className={`btn-action btn-approve ${status === 'Accepted' ? 'active' : ''}`}
+            onClick={() => setStatus('Accepted')}
+          >
+            <Check size={14} /> Approve Fix
+          </button>
+          <button
+            className={`btn-action btn-modify ${status === 'Edited' ? 'active' : ''}`}
+            onClick={() => setStatus('Edited')}
+          >
+            <Edit2 size={14} /> Edit Fix
+          </button>
+          <button
+            className={`btn-action btn-decline ${status === 'Rejected' ? 'active' : ''}`}
+            onClick={() => setStatus('Rejected')}
+          >
+            <X size={14} /> Reject Fix
           </button>
         </div>
+      </div>
+
+      {status === 'Edited' && (
+        <div>
+          <label style={{ fontSize: '0.725rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+            HUMAN CORRECTED CISCO IOS COMMANDS
+          </label>
+          <textarea
+            style={{
+              width: '100%',
+              height: '70px',
+              background: 'var(--cli-bg)',
+              border: '1px solid var(--cli-border)',
+              borderRadius: '6px',
+              color: '#38bdf8',
+              fontFamily: 'var(--font-mono)',
+              padding: '0.65rem',
+              fontSize: '0.8rem',
+              outline: 'none'
+            }}
+            value={correctedFix}
+            onChange={(e) => setCorrectedFix(e.target.value)}
+          />
+        </div>
+      )}
+
+      <div>
+        <label style={{ fontSize: '0.725rem', color: '#9ca3af', fontWeight: 600, display: 'block', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+          Reviewer Audit Notes
+        </label>
+        <input
+          type="text"
+          style={{
+            width: '100%',
+            background: 'rgba(0,0,0,0.3)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: '6px',
+            color: '#f9fafb',
+            padding: '0.5rem 0.75rem',
+            fontSize: '0.825rem',
+            outline: 'none'
+          }}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        />
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+        <button className="btn-primary-solid" onClick={handleSave}>
+          Save Review Record
+        </button>
       </div>
     </div>
   );

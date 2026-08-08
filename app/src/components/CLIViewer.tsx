@@ -1,41 +1,65 @@
 import React from 'react';
-import { Terminal, AlertCircle } from 'lucide-react';
+import { Terminal, AlertCircle, Network } from 'lucide-react';
 
 interface CLIViewerProps {
+  caseId: string;
+  title: string;
   symptom: string;
   topology: string;
   showOutputs: string;
+  domain: string;
+  osiLayer: string;
 }
 
 export const CLIViewer: React.FC<CLIViewerProps> = ({
+  caseId,
+  title,
   symptom,
   topology,
   showOutputs,
+  domain,
+  osiLayer,
 }) => {
   return (
-    <div className="glass-card" style={{ padding: '1.25rem' }}>
-      <div style={{ marginBottom: '1rem' }}>
+    <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {/* Case Header Banner */}
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-          <AlertCircle size={18} color="#f43f5e" />
-          <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Observed Symptom</h3>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#38bdf8', fontWeight: 600 }}>
+            {caseId}
+          </span>
+          <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>• {domain}</span>
         </div>
-        <p style={{ fontSize: '0.9rem', color: '#e5e7eb', background: 'rgba(244,63,94,0.08)', padding: '0.75rem', borderRadius: '8px', borderLeft: '3px solid #f43f5e' }}>
-          {symptom}
-        </p>
+        <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#f9fafb' }}>{title}</h2>
       </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <div style={{ fontSize: '0.85rem', color: '#9ca3af', fontWeight: 500, marginBottom: '0.25rem' }}>
-          Topology Context: <span style={{ color: '#d1d5db' }}>{topology}</span>
+      {/* Observed Symptom Box */}
+      <div style={{ background: 'rgba(244,63,94,0.06)', borderLeft: '3px solid #f43f5e', padding: '0.75rem 0.85rem', borderRadius: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', fontWeight: 600, color: '#fda4af', marginBottom: '0.2rem', textTransform: 'uppercase' }}>
+          <AlertCircle size={14} /> Observed Symptom
         </div>
+        <div style={{ fontSize: '0.875rem', color: '#e5e7eb' }}>{symptom}</div>
       </div>
 
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-          <Terminal size={16} color="#38bdf8" />
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#93c5fd' }}>Cisco IOS Show Command Output</span>
+      {/* Topology Context */}
+      <div style={{ fontSize: '0.8rem', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <Network size={14} color="#3b82f6" />
+        <span>Topology Context: <strong style={{ color: '#d1d5db' }}>{topology}</strong></span>
+      </div>
+
+      {/* Cisco IOS Terminal View */}
+      <div className="terminal-window">
+        <div className="terminal-header">
+          <div className="terminal-dots">
+            <span className="dot dot-red"></span>
+            <span className="dot dot-yellow"></span>
+            <span className="dot dot-green"></span>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#9ca3af', fontFamily: 'var(--font-mono)' }}>
+            Cisco IOS CLI Output Viewer
+          </div>
         </div>
-        <div className="cli-container">
+        <div className="terminal-body">
           {showOutputs}
         </div>
       </div>

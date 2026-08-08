@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, ShieldCheck, Activity, FileText } from 'lucide-react';
+import { Cpu, ShieldCheck, Activity } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'workspace' | 'dashboard' | 'responsible_ai';
@@ -9,32 +9,32 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   return (
     <header className="app-header">
-      <div className="logo-group">
-        <div className="logo-badge">NetSage</div>
-        <div className="title-text">
-          <h1>AI Network Diagnostic Assistant</h1>
-          <p>Cisco Packet Tracer Troubleshooter & Human-in-the-Loop Verification</p>
+      <div className="brand-container">
+        <div className="brand-badge">NetSage</div>
+        <div>
+          <div className="brand-title">Cisco AI Network Diagnostic Assistant</div>
+          <div className="brand-subtitle">Packet Tracer Lab Troubleshooter & Human Verification</div>
         </div>
       </div>
 
-      <nav className="nav-tabs">
+      <nav className="nav-group">
         <button
-          className={`tab-btn ${activeTab === 'workspace' ? 'active' : ''}`}
+          className={`nav-tab ${activeTab === 'workspace' ? 'active' : ''}`}
           onClick={() => setActiveTab('workspace')}
         >
-          <Cpu size={16} /> Diagnostic Workbench
+          <Cpu size={15} /> Workbench
         </button>
         <button
-          className={`tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+          className={`nav-tab ${activeTab === 'dashboard' ? 'active' : ''}`}
           onClick={() => setActiveTab('dashboard')}
         >
-          <Activity size={16} /> Benchmark Metrics
+          <Activity size={15} /> Metrics & Benchmark
         </button>
         <button
-          className={`tab-btn ${activeTab === 'responsible_ai' ? 'active' : ''}`}
+          className={`nav-tab ${activeTab === 'responsible_ai' ? 'active' : ''}`}
           onClick={() => setActiveTab('responsible_ai')}
         >
-          <ShieldCheck size={16} /> Responsible AI Log
+          <ShieldCheck size={15} /> Responsible AI Log
         </button>
       </nav>
     </header>
