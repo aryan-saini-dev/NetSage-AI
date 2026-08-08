@@ -8,39 +8,41 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   return (
-    <header className="app-navbar">
-      <div className="nav-brand">
-        <div className="brand-logo-pill">NetSage AI</div>
-        <div className="brand-text">
-          <h1>Cisco AI Diagnostic Assistant</h1>
-          <p>Packet Tracer Lab Troubleshooter & Human Verification Workbench</p>
+    <header className="flat-header">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="flat-logo-badge">NetSage AI</div>
+        <div>
+          <div className="flat-nav-title">Cisco Network Diagnostic Assistant</div>
+          <div style={{ fontSize: '0.8rem', color: 'var(--color-fg-muted)', fontWeight: 500 }}>
+            Packet Tracer Troubleshooting & Human Verification Workbench
+          </div>
         </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-        <div className="status-indicator">
-          <span className="status-dot"></span>
-          <span>Engine: Gemini 2.5 Flash</span>
+        <div className="flat-status-pill">
+          <Radio size={14} color="#10b981" />
+          <span>Gemini 2.5 Flash</span>
         </div>
 
-        <nav className="nav-tab-list">
+        <nav className="flat-tab-group">
           <button
-            className={`nav-tab-item ${activeTab === 'workspace' ? 'active' : ''}`}
+            className={`flat-tab-btn ${activeTab === 'workspace' ? 'active' : ''}`}
             onClick={() => setActiveTab('workspace')}
           >
-            <Cpu size={15} /> Workbench
+            <Cpu size={16} /> Workbench
           </button>
           <button
-            className={`nav-tab-item ${activeTab === 'dashboard' ? 'active' : ''}`}
+            className={`flat-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
             onClick={() => setActiveTab('dashboard')}
           >
-            <Activity size={15} /> Metrics & Benchmark
+            <Activity size={16} /> Metrics
           </button>
           <button
-            className={`nav-tab-item ${activeTab === 'responsible_ai' ? 'active' : ''}`}
+            className={`flat-tab-btn ${activeTab === 'responsible_ai' ? 'active' : ''}`}
             onClick={() => setActiveTab('responsible_ai')}
           >
-            <ShieldCheck size={15} /> Responsible AI Log
+            <ShieldCheck size={16} /> Audit Log
           </button>
         </nav>
       </div>

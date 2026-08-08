@@ -33,7 +33,7 @@ export const App: React.FC = () => {
       severity: selectedCase.severity,
       confidence: 0.95,
       evidence: `Config syntax anomaly flagged in ${selectedCase.domain}`,
-      recommendation: `Apply verified IOS commands to resolve ${selectedCase.domain} issue`
+      recommendation: `Apply verified Cisco IOS commands to resolve ${selectedCase.domain} issue`
     }
   ] : [];
 
@@ -42,22 +42,23 @@ export const App: React.FC = () => {
       ...prev,
       [selectedCase.case_id]: review
     }));
+    alert(`Human Verification Entry saved for ${selectedCase.case_id}: [${review.status}]`);
   };
 
   return (
     <div>
       <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className="main-wrapper">
+      <main className="flat-container">
         {activeTab === 'workspace' && (
-          <div className="workspace-grid">
+          <div className="flat-workspace-grid">
             <CaseSelector
               cases={casesData}
               selectedCase={selectedCase}
               onSelectCase={setSelectedCase}
             />
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <CLIViewer
                 caseId={selectedCase.case_id}
                 title={selectedCase.title}

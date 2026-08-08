@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, CheckCircle2, Bookmark } from 'lucide-react';
 
 export const ResponsibleAILogViewer: React.FC = () => {
   const correctedCases = [
@@ -42,44 +42,50 @@ export const ResponsibleAILogViewer: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <div className="glass-card" style={{ padding: '1.5rem', borderLeft: '4px solid #8b5cf6' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-          <ShieldCheck size={24} color="#8b5cf6" />
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Responsible AI Audit & Correction Log</h2>
+      <div className="flat-card flat-card-primary" style={{ padding: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem' }}>
+          <ShieldCheck size={26} color="#1d4ed8" />
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#1e3a8a', letterSpacing: '-0.02em' }}>
+            Responsible AI Audit & Human Correction Log
+          </h2>
         </div>
-        <p style={{ fontSize: '0.9rem', color: '#9ca3af' }}>
+        <p style={{ fontSize: '0.925rem', color: '#1e40af', fontWeight: 600, lineHeight: 1.5 }}>
           In compliance with Cisco AICTE guidelines, at least 5 complex network troubleshooting cases where the automated AI model initially produced imperfect or unsafe recommendations were audited and corrected by human network engineers.
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
         {correctedCases.map((c) => (
-          <div key={c.id} className="glass-card" style={{ padding: '1.25rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#38bdf8' }}>{c.id} - {c.title}</span>
-              <span className="badge" style={{ background: 'rgba(245,158,11,0.2)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.4)' }}>
+          <div key={c.id} className="flat-card flat-card-interactive" style={{ padding: '1.35rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '0.95rem', color: 'var(--color-primary)' }}>
+                {c.id} - {c.title}
+              </span>
+              <span className="flat-badge" style={{ backgroundColor: '#fef3c7', color: '#92400e', border: '1.5px solid #f59e0b' }}>
                 Human Corrected
               </span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.75rem' }}>
-              <div style={{ background: 'rgba(244,63,94,0.08)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(244,63,94,0.2)' }}>
-                <div style={{ fontSize: '0.75rem', color: '#fda4af', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+              <div className="flat-card" style={{ backgroundColor: '#fef2f2', borderColor: '#ef4444', padding: '0.85rem' }}>
+                <div style={{ fontSize: '0.75rem', color: '#991b1b', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
                   <AlertTriangle size={14} /> AI FAILURE MODE
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#e5e7eb', marginTop: '0.25rem' }}>{c.failureMode}</div>
+                <div style={{ fontSize: '0.85rem', color: '#7f1d1d', fontWeight: 600 }}>{c.failureMode}</div>
               </div>
 
-              <div style={{ background: 'rgba(16,185,129,0.08)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(16,185,129,0.2)' }}>
-                <div style={{ fontSize: '0.75rem', color: '#a7f3d0', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <div className="flat-card" style={{ backgroundColor: '#ecfdf5', borderColor: '#10b981', padding: '0.85rem' }}>
+                <div style={{ fontSize: '0.75rem', color: '#065f46', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
                   <CheckCircle2 size={14} /> HUMAN CORRECTION
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#e5e7eb', marginTop: '0.25rem' }}>{c.humanCorrection}</div>
+                <div style={{ fontSize: '0.85rem', color: '#064e3b', fontWeight: 600 }}>{c.humanCorrection}</div>
               </div>
 
-              <div style={{ background: 'rgba(139,92,246,0.08)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(139,92,246,0.2)' }}>
-                <div style={{ fontSize: '0.75rem', color: '#ddd6fe', fontWeight: 700 }}>GUARDRAIL ADDED</div>
-                <div style={{ fontSize: '0.85rem', color: '#e5e7eb', marginTop: '0.25rem' }}>{c.guardrailAdded}</div>
+              <div className="flat-card" style={{ backgroundColor: '#f5f3ff', borderColor: '#8b5cf6', padding: '0.85rem' }}>
+                <div style={{ fontSize: '0.75rem', color: '#5b21b6', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem', marginBottom: '0.2rem' }}>
+                  <Bookmark size={14} /> GUARDRAIL ADDED
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#4c1d95', fontWeight: 600 }}>{c.guardrailAdded}</div>
               </div>
             </div>
           </div>
