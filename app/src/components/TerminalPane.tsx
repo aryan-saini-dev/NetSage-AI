@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AIDiagnosis, HumanReview, RuleFinding } from '../types';
-import { Terminal, Cpu, UserCheck, Check, Edit2, X } from 'lucide-react';
+import { Terminal, Cpu, UserCheck, Check, Edit2, X, ShieldCheck } from 'lucide-react';
 
 interface TerminalPaneProps {
   showOutputs: string;
@@ -26,6 +26,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
   const [correctedFix, setCorrectedFix] = useState(
     currentReview?.corrected_fix || diagnosis.fix_steps.join('\n')
   );
+  const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSave = () => {
     onSaveReview({
@@ -33,6 +34,8 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
       reviewer_notes: notes,
       corrected_fix: status === 'Edited' ? correctedFix : undefined,
     });
+    setSavedSuccess(true);
+    setTimeout(() => setSavedSuccess(false), 2500);
   };
 
   return (
@@ -44,24 +47,24 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
         </div>
       </div>
 
-      {/* Pane Single Unified Content (NO TABS!) */}
-      <div className="lc-pane-content" style={{ padding: '0.85rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      {/* Pane Single Unified Content */}
+      <div className="lc-pane-content" style={{ padding: '0.85rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
         
         {/* 1. Cisco IOS CLI Output Box */}
         <div>
-          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--muted-fg)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--muted-fg)', textTransform: 'uppercase', marginBottom: '0.25rem', letterSpacing: '0.05em' }}>
             Raw Cisco IOS Terminal Output
           </div>
-          <div className="lc-terminal-box" style={{ maxHeight: '140px', padding: '0.65rem 0.75rem', fontSize: '0.775rem' }}>
+          <div className="lc-terminal-box" style={{ maxHeight: '135px', padding: '0.65rem 0.75rem', fontSize: '0.775rem' }}>
             {showOutputs}
           </div>
         </div>
 
-        {/* 2. Rule Check & AI Diagnostic Engine */}
+        {/* 2. AI & Static Rule Diagnostic Box */}
         <div className="bold-card bold-card-accent" style={{ padding: '0.75rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase' }}>
-              <Cpu size={14} /> AI & Static Rule Diagnosis
+              <Cpu size={14} /> AI Diagnostic Engine Recommendation
             </div>
             <span className="lc-diff diff-easy" style={{ fontSize: '0.65rem', padding: '0.1rem 0.35rem' }}>
               CONFIDENCE: {diagnosis.confidence.toUpperCase()}
@@ -70,7 +73,7 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
 
           {/* Static Rule Finding pill if triggered */}
           {ruleFindings.length > 0 && (
-            <div style={{ backgroundColor: '#fffbeb', border: '1px solid #f59e0b', padding: '0.35rem 0.5rem', borderRadius: '4px', marginBottom: '0.35rem', fontSize: '0.725rem', color: '#78350f', fontWeight: 600 }}>
+            <div style={{ backgroundColor: '#fffbeb', border: '1px solid #f59e0b', padding: '0.35rem 0.5rem', borderRadius: '0px', marginBottom: '0.35rem', fontSize: '0.725rem', color: '#78350f', fontWeight: 600 }}>
               <strong>[{ruleFindings[0].rule_id}]</strong> Static Check: {ruleFindings[0].evidence}
             </div>
           )}
@@ -89,78 +92,129 @@ export const TerminalPane: React.FC<TerminalPaneProps> = ({
           </div>
         </div>
 
-        {/* 3. Human Verification Workbench */}
-        <div className="bold-card" style={{ padding: '0.75rem', backgroundColor: '#0d1322' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.7rem', fontWeight: 800, color: '#10b981', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-            <UserCheck size={14} /> Human-in-the-Loop Verification Workbench
+        {/* 3. Sleek Overhauled Human Verification Workbench */}
+        <div className="bold-card" style={{ borderLeft: '3px solid #10b981', padding: '0.85rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.725rem', fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <ShieldCheck size={14} /> Human-in-the-Loop Audit Workbench
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--muted-fg)', marginTop: '0.1rem' }}>
+                Validate AI recommendation & save engineer review entry
+              </div>
+            </div>
+
+            {savedSuccess && (
+              <span className="lc-diff diff-easy" style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem' }}>
+                ✓ ENTRY RECORDED
+              </span>
+            )}
           </div>
 
-          <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.4rem' }}>
+          {/* Segmented Control Action Buttons */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '0.65rem' }}>
             <button
-              className={`bold-btn-solid ${status === 'Accepted' ? '' : 'bold-btn-outline'}`}
-              style={{ backgroundColor: status === 'Accepted' ? '#10b981' : 'transparent', padding: '0.3rem 0.65rem', fontSize: '0.7rem' }}
+              className="bold-btn-solid"
+              style={{
+                backgroundColor: status === 'Accepted' ? '#10b981' : 'transparent',
+                color: status === 'Accepted' ? '#ffffff' : 'var(--muted-fg)',
+                border: '1px solid ' + (status === 'Accepted' ? '#10b981' : 'var(--border)'),
+                justifyContent: 'center',
+                padding: '0.45rem',
+                fontSize: '0.725rem'
+              }}
               onClick={() => setStatus('Accepted')}
             >
-              <Check size={12} /> Approve Fix
+              <Check size={13} /> Accept
             </button>
             <button
-              className={`bold-btn-solid ${status === 'Edited' ? '' : 'bold-btn-outline'}`}
-              style={{ backgroundColor: status === 'Edited' ? '#f59e0b' : 'transparent', padding: '0.3rem 0.65rem', fontSize: '0.7rem' }}
+              className="bold-btn-solid"
+              style={{
+                backgroundColor: status === 'Edited' ? '#f59e0b' : 'transparent',
+                color: status === 'Edited' ? '#ffffff' : 'var(--muted-fg)',
+                border: '1px solid ' + (status === 'Edited' ? '#f59e0b' : 'var(--border)'),
+                justifyContent: 'center',
+                padding: '0.45rem',
+                fontSize: '0.725rem'
+              }}
               onClick={() => setStatus('Edited')}
             >
-              <Edit2 size={12} /> Edit Fix
+              <Edit2 size={13} /> Edit
             </button>
             <button
-              className={`bold-btn-solid ${status === 'Rejected' ? '' : 'bold-btn-outline'}`}
-              style={{ backgroundColor: status === 'Rejected' ? '#ef4444' : 'transparent', padding: '0.3rem 0.65rem', fontSize: '0.7rem' }}
+              className="bold-btn-solid"
+              style={{
+                backgroundColor: status === 'Rejected' ? '#ef4444' : 'transparent',
+                color: status === 'Rejected' ? '#ffffff' : 'var(--muted-fg)',
+                border: '1px solid ' + (status === 'Rejected' ? '#ef4444' : 'var(--border)'),
+                justifyContent: 'center',
+                padding: '0.45rem',
+                fontSize: '0.725rem'
+              }}
               onClick={() => setStatus('Rejected')}
             >
-              <X size={12} /> Reject Fix
+              <X size={13} /> Reject
             </button>
           </div>
 
+          {/* Corrected Commands Textarea if Edit Selected */}
           {status === 'Edited' && (
-            <textarea
-              style={{
-                width: '100%',
-                height: '45px',
-                backgroundColor: 'var(--input)',
-                border: '1px solid var(--border)',
-                color: '#38bdf8',
-                fontFamily: 'var(--font-mono)',
-                padding: '0.35rem 0.5rem',
-                fontSize: '0.75rem',
-                outline: 'none',
-                marginBottom: '0.35rem'
-              }}
-              value={correctedFix}
-              onChange={(e) => setCorrectedFix(e.target.value)}
-            />
+            <div style={{ marginBottom: '0.6rem' }}>
+              <div style={{ fontSize: '0.675rem', fontWeight: 700, color: 'var(--muted-fg)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+                Human Corrected Cisco IOS Commands:
+              </div>
+              <textarea
+                style={{
+                  width: '100%',
+                  height: '50px',
+                  backgroundColor: '#050505',
+                  border: '1px solid var(--border)',
+                  color: '#38bdf8',
+                  fontFamily: 'var(--font-mono)',
+                  padding: '0.4rem 0.55rem',
+                  fontSize: '0.75rem',
+                  outline: 'none'
+                }}
+                value={correctedFix}
+                onChange={(e) => setCorrectedFix(e.target.value)}
+              />
+            </div>
           )}
 
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          {/* Engineer Audit Notes Input & Action Button */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             <input
               type="text"
               style={{
-                flex: 1,
+                width: '100%',
                 backgroundColor: 'var(--input)',
                 border: '1px solid var(--border)',
                 color: 'var(--fg)',
-                padding: '0.35rem 0.55rem',
-                fontSize: '0.75rem',
+                padding: '0.4rem 0.65rem',
+                fontSize: '0.775rem',
                 outline: 'none'
               }}
+              placeholder="Reviewer audit notes & justification..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
+
             <button
               className="bold-btn-solid"
-              style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem' }}
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                padding: '0.45rem',
+                fontSize: '0.75rem',
+                backgroundColor: 'var(--accent)',
+                color: 'var(--accent-fg)'
+              }}
               onClick={handleSave}
             >
-              Save Verification
+              RECORD VERIFICATION ENTRY
             </button>
           </div>
+
         </div>
 
       </div>
