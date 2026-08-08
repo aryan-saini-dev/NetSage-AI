@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Web App
+app/node_modules/
+app/dist/
+.DS_Store
+
+# Zip artifacts
+*.zip
